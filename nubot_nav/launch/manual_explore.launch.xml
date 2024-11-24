@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find-pkg-share nubot)/launch/simulate.launch.xml">
+        <arg name="world" value="nubot_world.sdf"/>
+    </include>
+</launch>
