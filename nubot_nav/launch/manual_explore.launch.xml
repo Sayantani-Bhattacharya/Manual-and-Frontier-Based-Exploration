@@ -2,4 +2,16 @@
     <include file="$(find-pkg-share nubot)/launch/simulate.launch.xml">
         <arg name="world" value="nubot_world.sdf"/>
     </include>
+
+    <!-- Node for SLAM Toolbox in async mode -->
+    <include file="$(find-pkg-share slam_toolbox)/launch/online_async_launch.py">
+        <arg name="use_sim_time" value="true"/>
+        <arg name="slam_params_file" value="$(find-pkg-share slam_toolbox)/config/slam_params_async.yaml"/>
+    </include>
+
+    <!-- Issue: base laser tf is not being published/ not defined in sdf , present in /robotstatte params tough -->
+    
+    <!-- <node nav_bringup here> -->
+
+
 </launch>
