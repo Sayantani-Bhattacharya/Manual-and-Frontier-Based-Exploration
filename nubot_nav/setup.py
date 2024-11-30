@@ -14,7 +14,7 @@ setup(
         # ('share/' + package_name + '/urdf', ['urdf/nubot.urdf.xacro', 'urdf/nubot.gazebo.xacro']),
         # ('share/' + package_name + '/env-hooks', ['env-hooks/nubot.dsv']),
         # ('share/' + package_name + '/worlds', ['worlds/nubot_world.sdf', 'worlds/nubot_simple.sdf']),
-        ('share/' + package_name + '/launch', ['launch/manual_explore.launch.xml'])
+        ('share/' + package_name + '/launch', ['launch/manual_explore.launch.xml', 'launch/explore.launch.xml'])
     ],
 
     install_requires=['setuptools'],
@@ -26,6 +26,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'explore = nubot_nav.explore:main',
         ],
     },
 )
