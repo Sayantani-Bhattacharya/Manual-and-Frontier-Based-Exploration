@@ -37,7 +37,17 @@ class Explore(Node):
         Get the map explored by nubot.
         """
         self.map = msg
-        self.get_logger().info(f'Map received {self.map}')
+
+        # Map information
+        self.map_width = msg.info.width
+        self.map_height = msg.info.height
+        self.map_resolution = msg.info.resolution
+        self.map_origin = msg.info.origin
+        self.map_load_time = msg.info.map_load_time
+
+        self.grid = np.array(msg.data, dtype=np.int8).reshape((msg.info.height, msg.info.width))
+        self.get_logger().info(f"Map received: shape={self.grid.shape}")
+        self.get_logger().info(f"Free cells: {np.sum(self.grid == 0)}, Occupied cells: {np.sum(self.grid == 100)}, Unkown cells: {np.sum(self.grid == -1)}")
 
 
     def pose_callback(self,msg:PoseWithCovarianceStamped):
@@ -53,9 +63,9 @@ class Explore(Node):
         function to identify unexplored areas (frontiers) and send navigation goals to the robot.
         '''
         # Evedence Grids:
-            # open: having an occupancy probability < prior probability
-            # unknown: having an occupancy probability = prior probability
-            # occupied: having an occupancy probability > prior probability
+            # open: having an occupancy probability < prior probability       ----> 0
+            # unknown: having an occupancy probability = prior probability    ----> -1
+            # occupied: having an occupancy probability > prior probability   ----> 100
 
         # convert self.map to a matrix and output the pose where the robot should move next
         nextPose = 0
@@ -75,7 +85,6 @@ class Explore(Node):
         self.targetPose.pose.position.x = (self.currentPose.pose.position.x + 0.1)  
         self.targetPose.pose.position.x = (self.currentPose.pose.position.x + 0.2)  
         self.goalposepub.publish(self.targetPose)
-
 
     def save_final_map(self):
         self.get_logger().info('Saving the final generated map.')
