@@ -122,8 +122,7 @@ class Explore(Node):
         y_min = self.map_origin.position.y 
 
     # # debug
-        # self.get_logger().info('DEBUGG 2') 
-        
+        # self.get_logger().info('DEBUGG 2')         
         # for r,c in frontiers_world:
         #     if (r>=x_max or r<=x_min):
         #         self.get_logger().info(f'Wrong value of r : {r}.') 
@@ -137,8 +136,8 @@ class Explore(Node):
             for world_r, world_c in frontiers_world
         ]
         # Setting a min distance to ensure robot moves.
-        # You can increase this value to explore faster, but too high will leave sections unexplored [Works with 0.3]
-        threshold_dist = 0.3
+        # You can increase this value to explore faster, but too high will leave sections unexplored [Works well with 0.6]
+        threshold_dist = 0.6
         filtered_distances = [dist for dist in distances if dist > threshold_dist]
         if filtered_distances:
             # Find the index of the minimum distance from the filtered list
@@ -203,7 +202,8 @@ class Explore(Node):
 
     def save_final_map(self,map):
         self.get_logger().info('Saving the final generated map.')
-        # method to store the map 
+        # Used the following command: can be automated here later
+        # ros2 run nav2_map_server map_saver_cli -f <map_file_name>
 
 
 def main(args=None):
